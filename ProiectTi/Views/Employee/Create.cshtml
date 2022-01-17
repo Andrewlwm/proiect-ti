@@ -1,0 +1,115 @@
+﻿@model ProiectTi.Models.Employee
+
+@{
+    ViewData["Title"] = "Adăugare angajat";
+    Layout = "_Layout";
+}
+
+<h4>Date angajat</h4>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Nume" class="control-label"></label>&nbsp;*
+                <input asp-for="Nume" class="form-control" required />
+                <span asp-validation-for="Nume" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Prenume" class="control-label"></label>&nbsp;*
+                <input asp-for="Prenume" class="form-control" required />
+                <span asp-validation-for="Prenume" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SubmitPicture" class="control-label"></label>
+                <input asp-for="SubmitPicture" class="form-control" style="height:45px" />
+            </div>
+            <div class="form-group">
+                <label asp-for="SalarBaza" class="control-label"></label>&nbsp;*
+                <input asp-for="SalarBaza" class="form-control" type="number" required />
+                <span asp-validation-for="SalarBaza" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Spor" class="control-label"></label>
+                <input asp-for="Spor" class="form-control" type="number" />
+                <span asp-validation-for="Spor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PremiiBrute" class="control-label"></label>
+                <input asp-for="PremiiBrute" class="form-control" type="number" />
+                <span asp-validation-for="PremiiBrute" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BrutImpozitabil" class="control-label"></label>
+                <input asp-for="BrutImpozitabil" class="form-control" readonly />
+            </div>
+            <div class="form-group">
+                <label asp-for="Impozit" class="control-label"></label>
+                <input asp-for="Impozit" class="form-control" readonly />
+            </div>
+            <div class="form-group">
+                <label asp-for="CAS" class="control-label"></label>
+                <input asp-for="CAS" class="form-control" readonly />
+            </div>
+            <div class="form-group">
+                <label asp-for="CASS" class="control-label"></label>
+                <input asp-for="CASS" class="form-control" readonly />
+            </div>
+            <div class="form-group">
+                <label asp-for="Retineri" class="control-label"></label>
+                <input asp-for="Retineri" class="form-control" type="number" />
+                <span asp-validation-for="Retineri" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ViratCard" class="control-label"></label>
+                <input asp-for="ViratCard" class="form-control" readonly />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Adăugare" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+@{
+await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+<script>
+    $(function () {
+        const Nume = $('#Nume');
+        const Prenume = $('#Prenume');
+        const SalarBaza = $('#SalarBaza');
+        const Spor = $('#Spor');
+        const PremiiBrute = $('#PremiiBrute');
+        const CAS = $('#CAS');
+        const CASS = $('#CASS');
+        const Impozit = $('#Impozit');
+        const BrutImpozitabil = $('#BrutImpozitabil');
+        const ViratCard = $('#ViratCard');
+        const Retineri = $('#Retineri');
+
+        function calculareImpozit() {
+            const totalBrut = (SalarBaza.val() * (1 + (Spor.val()) / 100)) + Number(PremiiBrute.val());
+            CAS.val(totalBrut * 0.25);
+            CASS.val(totalBrut * 0.1);
+            BrutImpozitabil.val(totalBrut - CAS.val() - CASS.val());
+            Impozit.val(BrutImpozitabil.val() * 0.1);
+            ViratCard.val(BrutImpozitabil.val() - Impozit.val() - Retineri.val());
+        }
+
+        // calculare impozit cand se modifica valorile de baza
+        [SalarBaza, Spor, PremiiBrute, Retineri].forEach(elem => elem.on('input', calculareImpozit));
+
+        function validare() {
+            $("input[type=submit]")
+                .prop("disabled", !(SalarBaza.val() && Nume.val() && Prenume.val()));
+        }
+
+        // dezactivare button submit cand formularul este invalid
+        validare();
+        $('input').on('input', validare);
+    });
+</script>
+}

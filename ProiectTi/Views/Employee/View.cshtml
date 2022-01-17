@@ -1,0 +1,108 @@
+﻿@model ProiectTi.Models.Employee
+
+@{
+    ViewData["Title"] = "Detalii";
+}
+
+@if (Model is not null)
+{
+    <div>
+        <h4>Detalii Angajat</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Nume)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Nume)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Prenume)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Prenume)
+            </dd>
+            @if (Model.DisplayPicture is not null)
+            {
+                <dt class="col-sm-2">
+                    @Html.DisplayFor(model => model.DisplayPicture)
+                </dt>
+                <dd class="col-sm-10">
+                    <img src="data:@Model.DisplayPicture.ContentType;base64,@Model.DisplayPicture.Base64Image"
+                style="width:100px; height:100px" />
+                </dd>
+            }
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.SalarBaza)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.SalarBaza)
+                <span>&nbsp;lei</span>
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Spor)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Spor)
+                <span>&nbsp;%</span>
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.PremiiBrute)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.PremiiBrute)
+                <span>&nbsp;lei</span>
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.BrutImpozitabil)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.BrutImpozitabil)
+                <span>&nbsp;lei</span>
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Impozit)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Impozit)
+                <span>&nbsp;lei</span>
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.CAS)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CAS)
+                <span>&nbsp;lei</span>
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.CASS)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CASS)
+                <span>&nbsp;lei</span>
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Retineri)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Retineri)
+                <span>&nbsp;lei</span>
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ViratCard)
+            </dt>
+            <dd class="col-sm-10">
+                @(@Html.DisplayFor(model => model.ViratCard))
+                <span>&nbsp;lei</span>
+            </dd>
+        </dl>
+    </div>
+    <div>
+        @* @Html.ActionLink("Edit", "Edit", new {/* id = Model.PrimaryKey */}) | *@
+        <a asp-action="Index">Back to List</a>
+    </div>
+}
+else
+{
+    <h1 class="text-xl-center"> Angajatul nu există!</h1>
+}
