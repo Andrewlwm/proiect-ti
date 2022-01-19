@@ -76,6 +76,10 @@
             const randomImageTag = document.getElementById('randomImage');
             const imageUrl = "https://source.unsplash.com/random/60×500";
 
+            setDateTime = () => {
+                $("#date-time").text(new Date().toLocaleString("ro-RO").replace(",",""));
+            };
+
             fetchAndSetImage = async () => {
                 const response = await fetch(imageUrl)
                 const imageBlob = await response.blob()
@@ -84,13 +88,15 @@
                 reader.onloadend = () => {
                     const base64data = reader.result;
                     randomImageTag.src = base64data;
-                }
-            }
+                };
+            };
 
-            setInterval(() => $("#date-time").text(new Date().toLocaleString("ro-RO").replace(",","")), 1000);
+            setInterval(setDateTime, 1000);
             setInterval(fetchAndSetImage, 5000);
 
-            fetchAndSetImage(); // for the first time the page loads
+            // for the first time the page loads
+            setDateTime();
+            fetchAndSetImage();
         });
     </script>
     @await RenderSectionAsync("Scripts", false)
