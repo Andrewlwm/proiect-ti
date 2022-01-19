@@ -1,0 +1,137 @@
+﻿@model IEnumerable<ProiectTi.Models.Employee>
+@if (ViewData["total"] is not null)
+{
+    Layout = null;
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>@ViewData["Title"] - ProiectTi</title>
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+    </head>
+}
+
+<div class="table-container">
+    <table class="table table-bordered tabel-angajati">
+        <thead>
+            <tr style="display:flex">
+                <th class="col-poza">
+                    Poză angajat
+                </th>
+                <th class="col-nume">
+                    @Html.DisplayNameFor(model => model.Nume)
+                </th>
+                <th class="col-prenume">
+                    @Html.DisplayNameFor(model => model.Prenume)
+                </th>
+                <th class="col-salar">
+                    @Html.DisplayNameFor(model => model.SalarBaza)
+                </th>
+                <th class="col-spor">
+                    @Html.DisplayNameFor(model => model.Spor)
+                </th>
+                <th class="col-premii">
+                    @Html.DisplayNameFor(model => model.PremiiBrute)
+                </th>
+                <th class="col-brut">
+                    @Html.DisplayNameFor(model => model.BrutImpozitabil)
+                </th>
+                <th class="col-impozit">
+                    @Html.DisplayNameFor(model => model.Impozit)
+                </th>
+                <th class="col-cas">
+                    @Html.DisplayNameFor(model => model.CAS)
+                </th>
+                <th class="col-cass">
+                    @Html.DisplayNameFor(model => model.CASS)
+                </th>
+                <th class="col-retineri">
+                    @Html.DisplayNameFor(model => model.Retineri)
+                </th>
+                <th class="col-virat">
+                    @Html.DisplayNameFor(model => model.ViratCard)
+                </th>
+                @if (ViewData["total"] is null)
+                {
+                    <th class="col-actiuni">Acțiunii</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr style="display:flex">
+                    @if (item.DisplayPicture is not null)
+                    {
+                        <td class="col-poza">
+                            <img src="data:@item.DisplayPicture.ContentType;base64,@item.DisplayPicture.Base64Image"
+                         style="width:100px; height:100px" />
+                        </td>
+                    }
+                    else
+                    {
+                        <td class="col-poza"><span>Imagine indisponibilă</span></td>
+                    }
+                    <td class="col-nume">
+                        @Html.DisplayFor(modelItem => item.Nume)
+                    </td>
+                    <td class="col-prenume">
+                        @Html.DisplayFor(modelItem => item.Prenume)
+                    </td>
+                    <td class="col-salar">
+                        @Html.DisplayFor(modelItem => item.SalarBaza) lei
+
+                    </td>
+                    <td class="col-spor">
+                        @Html.DisplayFor(modelItem => item.Spor)%
+
+                    </td>
+                    <td class="col-premii">
+                        @Html.DisplayFor(modelItem => item.PremiiBrute) lei
+
+                    </td>
+                    <td class="col-brut">
+                        @Html.DisplayFor(modelItem => item.BrutImpozitabil) lei
+
+                    </td>
+                    <td class="col-impozit">
+                        @Html.DisplayFor(modelItem => item.Impozit) lei
+                    </td>
+                    <td class="col-cas">
+                        @Html.DisplayFor(modelItem => item.CAS) lei
+
+                    </td>
+                    <td class="col-cass">
+                        @Html.DisplayFor(modelItem => item.CASS) lei
+
+                    </td>
+                    <td class="col-retineri">
+                        @Html.DisplayFor(modelItem => item.Retineri) lei
+
+                    </td>
+                    <td class="col-virat">
+                        @Html.DisplayFor(modelItem => item.ViratCard) lei
+
+                    </td>
+                    @if (ViewData["total"] is null)
+                    {
+                        <td class="col-actiuni">
+                            @Html.ActionLink("Editare", "Edit", new {  id=item.Id  }) <br>
+                            @Html.ActionLink("Detalii", "View", new {  id=item.Id  }) <br>
+                            <button class="delete btn btn-link" data-Id="@item.Id" style="padding:0">Ștergere</button>
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+        @if (ViewData["total"] is not null)
+        {
+            <tfoot>
+                <tr>
+                    <td colspan="11"></td>
+                    <td style="font-weight:500">Total: &nbsp;<span id="total">@ViewData["total"]</span></td>
+                </tr>
+            </tfoot>
+        }
+    </table>
+</div>

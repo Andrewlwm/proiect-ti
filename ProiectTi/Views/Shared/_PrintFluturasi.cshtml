@@ -1,0 +1,74 @@
+﻿@model IEnumerable<ProiectTi.Models.Employee>
+@{
+    Layout = null;
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>@ViewData["Title"] - ProiectTi</title>
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+        <style>
+            .column {
+                float: left;
+                width: 50%;
+            }
+
+            .row:after {
+                content: "";
+                display: table;
+                clear: both;
+            }
+        </style>
+    </head>
+}
+
+<div style="font-size:16px; font-weight:500; margin-left: 50px">
+    @foreach (var item in Model)
+    {
+        <div class="row">
+            <div class="column">
+                Data: @DateTime.Now.ToShortDateString()
+                <br />
+                @Html.DisplayNameFor(model => model.Nume).ToUpper():
+                @Html.DisplayFor(modelItem => item.Nume)
+                <br />
+                @Html.DisplayNameFor(model => model.Prenume).ToUpper():
+                @Html.DisplayFor(modelItem => item.Prenume)
+                <br />
+                @Html.DisplayNameFor(model => model.SalarBaza).ToUpper():
+                @Html.DisplayFor(modelItem => item.SalarBaza)
+                <br />
+                @Html.DisplayNameFor(model => model.Spor).ToUpper():
+                @Html.DisplayFor(modelItem => item.Spor)
+                <br />
+                @Html.DisplayNameFor(model => model.PremiiBrute).ToUpper():
+                @Html.DisplayFor(modelItem => item.PremiiBrute)
+                <br />
+                @Html.DisplayNameFor(model => model.BrutImpozitabil).ToUpper():
+                @Html.DisplayFor(modelItem => item.BrutImpozitabil)
+            </div>
+            <div class="column">
+                <br />
+                @Html.DisplayNameFor(model => model.Impozit).ToUpper():
+                @Html.DisplayFor(modelItem => item.Impozit)
+                <br />
+                @Html.DisplayNameFor(model => model.CAS).ToUpper():
+                @Html.DisplayFor(modelItem => item.CAS)
+                <br />
+                @Html.DisplayNameFor(model => model.CASS).ToUpper():
+                @Html.DisplayFor(modelItem => item.CASS)
+                <br />
+                @Html.DisplayNameFor(model => model.Retineri).ToUpper():
+                @Html.DisplayFor(modelItem => item.Retineri)
+                <br />
+                @Html.DisplayNameFor(model => model.ViratCard).ToUpper():
+                @Html.DisplayFor(modelItem => item.ViratCard)
+            </div>
+        </div>
+        <hr />
+        <br />
+    }
+</div>
+
+
+
