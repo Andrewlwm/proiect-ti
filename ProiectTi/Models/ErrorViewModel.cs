@@ -1,5 +1,3 @@
-using System;
-
 namespace ProiectTi.Models
 {
     public class ErrorViewModel

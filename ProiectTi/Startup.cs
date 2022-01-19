@@ -8,10 +8,6 @@ using ProiectTi.Services;
 using ProiectTi.Services.Abstractions;
 using Rotativa.AspNetCore;
 using ServiceStack.OrmLite;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ProiectTi
 {

@@ -1,17 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ProiectTi.Data.Models;
-using ProiectTi.Services.Abstractions;
-using System.Data;
-using System.IO;
-using ServiceStack.OrmLite;
-using System.Threading.Tasks;
 using ProiectTi.Models;
-using System;
-using System.Linq;
-using System.Collections.Generic;
+using ProiectTi.Services.Abstractions;
 using Rotativa.AspNetCore;
 using Rotativa.AspNetCore.Options;
+using System;
+using System.Data;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ProiectTi.Controllers
 {

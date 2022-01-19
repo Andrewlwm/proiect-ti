@@ -1,14 +1,11 @@
-﻿using ProiectTi.Services.Abstractions;
+﻿using Microsoft.Extensions.Logging;
+using ProiectTi.Data.Models;
+using ProiectTi.Models;
+using ProiectTi.Services.Abstractions;
+using ServiceStack.OrmLite;
+using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
-using ServiceStack.OrmLite;
-using ProiectTi.Data.Models;
-using System.Collections.Generic;
-using ProiectTi.Models;
-using System;
-using System.IO;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
 
 namespace ProiectTi.Services
 {
@@ -29,7 +26,7 @@ namespace ProiectTi.Services
         {
             _database.CreateTableIfNotExists<Percentages>();
             _database.CreateTableIfNotExists<EmployeeDto>();
-            if(await _database.SingleByIdAsync<Percentages>(1) is null)
+            if (await _database.SingleByIdAsync<Percentages>(1) is null)
             {
                 _ = _database.SaveAsync(new Percentages());
             }
