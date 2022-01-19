@@ -9,7 +9,20 @@
 
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create" enctype="multipart/form-data">
+        <form asp-action="@( @Model?.Id is null ? "Create" : "Edit")" enctype="multipart/form-data">
+            @if (@Model?.Id is not null)
+            {
+                <div class="form-group">
+                    <label asp-for="Id" class="control-label"></label>
+                    <input asp-for="Id" class="form-control" readonly />
+                </div>
+                @if (@Model?.DisplayPicture is not null)
+                {
+                    <input asp-for="DisplayPicture.Base64Image" hidden />
+                    <input asp-for="DisplayPicture.ContentType" hidden />
+                }
+            }
+            <div id="Procentaje" data-CAS="@ViewData["CAS"]" data-CASS="@ViewData["CASS"]" data-Impozit="@ViewData["Impozit"]" hidden></div>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Nume" class="control-label"></label>&nbsp;*
@@ -66,7 +79,7 @@
                 <input asp-for="ViratCard" class="form-control" readonly />
             </div>
             <div class="form-group">
-                <input type="submit" value="Adăugare" class="btn btn-primary" />
+                <input type="submit" value="@(@Model?.Id is null ? "Adăugare":"Actualizare")" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -78,33 +91,44 @@ await Html.RenderPartialAsync("_ValidationScriptsPartial");
 }
 <script>
     $(function () {
-        const Nume = $('#Nume');
-        const Prenume = $('#Prenume');
-        const SalarBaza = $('#SalarBaza');
-        const Spor = $('#Spor');
-        const PremiiBrute = $('#PremiiBrute');
-        const CAS = $('#CAS');
-        const CASS = $('#CASS');
-        const Impozit = $('#Impozit');
-        const BrutImpozitabil = $('#BrutImpozitabil');
-        const ViratCard = $('#ViratCard');
-        const Retineri = $('#Retineri');
+        const nume = $('#Nume');
+        const prenume = $('#Prenume');
+        const salarBaza = $('#SalarBaza');
+        const spor = $('#Spor');
+        const premiiBrute = $('#PremiiBrute');
+        const cas = $('#CAS');
+        const cass = $('#CASS');
+        const impozit = $('#Impozit');
+        const brutImpozitabil = $('#BrutImpozitabil');
+        const viratCard = $('#ViratCard');
+        const retineri = $('#Retineri');
+        const procentaje = $('#Procentaje');
 
         function calculareImpozit() {
-            const totalBrut = (SalarBaza.val() * (1 + (Spor.val()) / 100)) + Number(PremiiBrute.val());
-            CAS.val(totalBrut * 0.25);
-            CASS.val(totalBrut * 0.1);
-            BrutImpozitabil.val(totalBrut - CAS.val() - CASS.val());
-            Impozit.val(BrutImpozitabil.val() * 0.1);
-            ViratCard.val(BrutImpozitabil.val() - Impozit.val() - Retineri.val());
+            const valoareSalar = salarBaza.val();
+            const valoareSpor = spor.val();
+            const valoarePremii = premiiBrute.val();
+            const procentCas = procentaje.data('cas');
+            const procentCass = procentaje.data('cass');
+            const procentImpozit = procentaje.data('impozit');
+
+
+            const sporProcentual = valoareSpor / 100 + 1;
+            const totalBrut = valoareSalar * sporProcentual + Number(valoarePremii);
+
+            cas.val((totalBrut * procentCas).toFixed(2)); // setare valoare calculata cas
+            cass.val((totalBrut * procentCass).toFixed(2)); // setare valoare calculata cass
+            brutImpozitabil.val((totalBrut - cass.val() - cass.val()).toFixed(2)); // setare valoare calculata brut impozitabil
+            impozit.val((brutImpozitabil.val() * procentImpozit).toFixed(2)); // setare valoare calculata impozit
+            viratCard.val((brutImpozitabil.val() - impozit.val() - retineri.val()).toFixed(2)); // setare valoare calculata pentru valoarea neta primita
         }
 
         // calculare impozit cand se modifica valorile de baza
-        [SalarBaza, Spor, PremiiBrute, Retineri].forEach(elem => elem.on('input', calculareImpozit));
+        [salarBaza, spor, premiiBrute, retineri].forEach(elem => elem.on('input', calculareImpozit));
 
         function validare() {
             $("input[type=submit]")
-                .prop("disabled", !(SalarBaza.val() && Nume.val() && Prenume.val()));
+                .prop("disabled", !(salarBaza.val() && nume.val() && prenume.val()));
         }
 
         // dezactivare button submit cand formularul este invalid

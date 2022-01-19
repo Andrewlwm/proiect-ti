@@ -6,7 +6,7 @@ namespace ProiectTi.Models
 {
     public class Employee
     {
-
+        public int? Id { get; set; }
         public string Nume { get; set; }
 
         public string Prenume { get; set; }

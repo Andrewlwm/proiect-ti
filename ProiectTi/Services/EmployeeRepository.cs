@@ -8,6 +8,7 @@ using ProiectTi.Models;
 using System;
 using System.IO;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace ProiectTi.Services
 {
@@ -15,17 +16,23 @@ namespace ProiectTi.Services
     {
         private readonly IDbConnection _database;
         private readonly IDtoMapper _mapper;
+        private readonly ILogger _logger;
 
-        public EmployeeRepository(IDbConnection database, IDtoMapper mapper)
+        public EmployeeRepository(IDbConnection database, IDtoMapper mapper, ILogger<EmployeeRepository> logger)
         {
             _database = database;
             _mapper = mapper;
+            _logger = logger;
         }
 
-        public void InitTables()
+        public async void InitTables()
         {
             _database.CreateTableIfNotExists<Percentages>();
             _database.CreateTableIfNotExists<EmployeeDto>();
+            if(await _database.SingleByIdAsync<Percentages>(1) is null)
+            {
+                _ = _database.SaveAsync(new Percentages());
+            }
         }
 
         public Task AddEmployeeAsync(Employee employee)
@@ -38,14 +45,34 @@ namespace ProiectTi.Services
             return _database.SingleByIdAsync<EmployeeDto>(id);
         }
 
-        public  Task<List<EmployeeDto>> GetAllEmployeesAsync()
+        public Task<List<EmployeeDto>> GetAllEmployeesAsync()
         {
-            return  _database.SelectAsync<EmployeeDto>();
+            return _database.SelectAsync<EmployeeDto>();
         }
 
-        public  Task<List<EmployeeDto>> GetEmployeesBySearchStringAsync(string search)
+        public Task<List<EmployeeDto>> GetEmployeesBySearchStringAsync(string search)
         {
-            return  _database.SelectAsync<EmployeeDto>(e => e.Nume.Contains(search) || e.Prenume.Contains(search));
+            return _database.SelectAsync<EmployeeDto>(e => e.Nume.Contains(search) || e.Prenume.Contains(search));
+        }
+
+        public Task UpdateEmployee(Employee employee)
+        {
+            return _database.UpdateAsync(_mapper.EmployeeToDto(employee));
+        }
+
+        public Task<Percentages> GetPercentages()
+        {
+            return _database.SingleByIdAsync<Percentages>(1);
+        }
+
+        public Task UpdatePercentages(Percentages percentages)
+        {
+            return _database.SaveAsync(percentages);
+        }
+
+        public Task DeleteEmployeeById(int id)
+        {
+            return _database.DeleteByIdAsync<EmployeeDto>(id);
         }
     }
 }

@@ -13,6 +13,7 @@ namespace ProiectTi.Services
         {
             var employee = new Employee
             {
+                Id = dto.Id,
                 Nume = dto.Nume,
                 Prenume = dto.Prenume,
                 SalarBaza = dto.SalarBaza,
@@ -54,6 +55,15 @@ namespace ProiectTi.Services
                 ViratCard = employee.ViratCard
             };
 
+            if (employee.DisplayPicture is not null)
+            {
+                dto.Picture = new EmployeePicture
+                {
+                    Content = Convert.FromBase64String(employee.DisplayPicture.Base64Image),
+                    ContentType = employee.DisplayPicture.ContentType
+                };
+            }
+
             if (employee.SubmitPicture is not null)
             {
                 dto.Picture = new EmployeePicture
@@ -61,6 +71,11 @@ namespace ProiectTi.Services
                     ContentType = employee.SubmitPicture.ContentType,
                     Content = GetBytes(employee.SubmitPicture)
                 };
+            }
+
+            if (employee?.Id is not null)
+            {
+                dto.Id = (int)employee.Id;
             }
 
             return dto;

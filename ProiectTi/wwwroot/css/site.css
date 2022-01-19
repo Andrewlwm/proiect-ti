@@ -73,11 +73,68 @@ body {
     line-height: 60px; /* Vertically center the text there */
 }
 
-.table-container{
+.table-container {
     display: flex;
     flex-basis: 100%;
 }
 
-.table-container > table{
-    flex-grow: 1;
+    .table-container > table {
+        border: 0;
+    }
+
+.col-poza {
+    flex: 1 0 126px;
+}
+
+
+.col-nume {
+    flex: 1 0 100px;
+}
+
+.col-prenume {
+    flex: 1 0 100px;
+}
+
+.col-salar {
+    flex: 1 0 120px;
+}
+
+.col-spor {
+    flex: 1 0 80px;
+}
+
+.col-premii {
+    flex: 1 0 100px;
+}
+
+.col-brut {
+    flex: 1 0 115px;
+}
+
+.col-impozit {
+    flex: 1 0 100px;
+}
+
+.col-cas {
+    flex: 1 0 100px;
+}
+
+.col-cass {
+    flex: 1 0 100px;
+}
+
+.col-retineri {
+    flex: 1 0 100px;
+}
+
+.col-virat {
+    flex: 1 0 125px;
+}
+
+.col-actiuni {
+    flex: 1 0 100px;
+}
+
+.container{
+    margin-left: 150px;
 }

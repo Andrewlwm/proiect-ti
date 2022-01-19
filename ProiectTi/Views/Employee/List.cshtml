@@ -4,104 +4,31 @@
     ViewData["Title"] = "List";
 }
 
-<h1>List</h1>
+<h1>Listă angajați</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Adaugă aganjat</a>
 </p>
-<div class="table-container">
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Nume)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Prenume)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.SalarBaza)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Spor)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PremiiBrute)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.BrutImpozitabil)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Impozit)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CAS)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CASS)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Retineri)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ViratCard)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Nume)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Prenume)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.SalarBaza) <span>&nbsp;lei</span>
-
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Spor) <span>&nbsp;%</span>
-
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PremiiBrute) <span>&nbsp;lei</span>
-
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.BrutImpozitabil) <span>&nbsp;lei</span>
-
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Impozit) <span>&nbsp;lei</span>
-
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CAS) <span>&nbsp;lei</span>
-
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CASS) <span>&nbsp;lei</span>
-
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Retineri) <span>&nbsp;lei</span>
-
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ViratCard) <span>&nbsp;lei</span>
-
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) <br>
-                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) <br>
-                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
+@{
+    await Html.RenderPartialAsync("_EmployeeTable", Model);
+}
+@section Scripts {
+<script>
+    $(function(){
+        $(".delete").on('click', function(){
+            const button = $(this);
+            const id = button.data('id');
+            $.ajax(
+                {
+                    url: `/employee/delete/${id}`,
+                    method: 'DELETE'
+                }
+            ).done(function(){
+                button.closest('tr').remove();
+            }).fail(function(){
+                window.alert('Failed to delete employee');
+            });
+        });
+    });
+</script>
+}

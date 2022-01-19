@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ProiectTi.Services;
 using ProiectTi.Services.Abstractions;
+using Rotativa.AspNetCore;
 using ServiceStack.OrmLite;
 using System;
 using System.Collections.Generic;
@@ -70,6 +71,8 @@ namespace ProiectTi
                     "default",
                     "{controller=Home}/{action=Index}/{id?}");
             });
+
+            RotativaConfiguration.Setup(env.WebRootPath, "C:\\Program Files\\wkhtmltopdf\\bin");
         }
     }
 }
