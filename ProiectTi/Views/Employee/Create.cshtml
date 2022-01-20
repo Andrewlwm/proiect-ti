@@ -118,7 +118,7 @@ await Html.RenderPartialAsync("_ValidationScriptsPartial");
 
             cas.val((totalBrut * procentCas).toFixed(2)); // setare valoare calculata cas
             cass.val((totalBrut * procentCass).toFixed(2)); // setare valoare calculata cass
-            brutImpozitabil.val((totalBrut - cass.val() - cass.val()).toFixed(2)); // setare valoare calculata brut impozitabil
+            brutImpozitabil.val((totalBrut - cass.val() - cas.val()).toFixed(2)); // setare valoare calculata brut impozitabil
             impozit.val((brutImpozitabil.val() * procentImpozit).toFixed(2)); // setare valoare calculata impozit
             viratCard.val((brutImpozitabil.val() - impozit.val() - retineri.val()).toFixed(2)); // setare valoare calculata pentru valoarea neta primita
         }
@@ -133,6 +133,7 @@ await Html.RenderPartialAsync("_ValidationScriptsPartial");
 
         // dezactivare button submit cand formularul este invalid
         validare();
+        calculareImpozit();
         $('input').on('input', validare);
     });
 </script>
